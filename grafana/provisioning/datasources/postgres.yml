@@ -1,6 +1,7 @@
 apiVersion: 1
 datasources:
   - name: Ecommerce Warehouse
+    uid: P963A8D4C4F9E4D1A
     type: postgres
     access: proxy
     url: postgres:5432
