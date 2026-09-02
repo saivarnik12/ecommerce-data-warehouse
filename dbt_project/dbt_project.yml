@@ -1,5 +1,4 @@
 name: ecommerce_warehouse
-type: dbt
 version: '1.0'
 config-version: 2
 profile: ecommerce_warehouse
