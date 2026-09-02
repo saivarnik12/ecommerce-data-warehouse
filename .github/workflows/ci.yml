@@ -35,12 +35,14 @@ jobs:
         run: docker compose run --rm --entrypoint /home/airflow/.local/bin/airflow airflow-init db migrate
       - name: Create Airflow admin user
         run: docker compose run --rm --entrypoint /home/airflow/.local/bin/airflow airflow-init users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
+      - name: Check dbt installation and connection
+        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init debug --project-dir /opt/dbt --profiles-dir /opt/dbt --target-path /tmp/dbt-target --log-path /tmp/dbt-logs
       - name: Validate dbt project
-        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init parse --project-dir /opt/dbt --profiles-dir /opt/dbt
+        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init parse --project-dir /opt/dbt --profiles-dir /opt/dbt --target-path /tmp/dbt-target --log-path /tmp/dbt-logs --debug
       - name: Run dbt
-        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init run --project-dir /opt/dbt --profiles-dir /opt/dbt
+        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init run --project-dir /opt/dbt --profiles-dir /opt/dbt --target-path /tmp/dbt-target --log-path /tmp/dbt-logs
       - name: Test dbt
-        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init test --project-dir /opt/dbt --profiles-dir /opt/dbt
+        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init test --project-dir /opt/dbt --profiles-dir /opt/dbt --target-path /tmp/dbt-target --log-path /tmp/dbt-logs
       - name: Tear down
         if: always()
         run: docker compose down -v
