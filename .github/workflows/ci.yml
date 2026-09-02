@@ -35,10 +35,12 @@ jobs:
         run: docker compose run --rm --entrypoint /home/airflow/.local/bin/airflow airflow-init db migrate
       - name: Create Airflow admin user
         run: docker compose run --rm --entrypoint /home/airflow/.local/bin/airflow airflow-init users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
+      - name: Validate dbt project
+        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init parse --project-dir /opt/dbt --profiles-dir /opt/dbt
       - name: Run dbt
-        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init run --profiles-dir /opt/dbt
+        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init run --project-dir /opt/dbt --profiles-dir /opt/dbt
       - name: Test dbt
-        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init test --profiles-dir /opt/dbt
+        run: docker compose run --rm --entrypoint /home/airflow/.local/bin/dbt airflow-init test --project-dir /opt/dbt --profiles-dir /opt/dbt
       - name: Tear down
         if: always()
         run: docker compose down -v
