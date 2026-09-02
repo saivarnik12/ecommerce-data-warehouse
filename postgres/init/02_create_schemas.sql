@@ -1,0 +1,4 @@
+CREATE SCHEMA IF NOT EXISTS raw;
+CREATE SCHEMA IF NOT EXISTS analytics_staging;
+CREATE SCHEMA IF NOT EXISTS analytics_marts;
+CREATE SCHEMA IF NOT EXISTS analytics_analytics;
