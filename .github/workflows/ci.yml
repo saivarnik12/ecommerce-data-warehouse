@@ -30,7 +30,7 @@ jobs:
           done
           exit 1
       - name: Generate source data
-        run: docker compose run --rm airflow-init /usr/local/bin/python /opt/data-generator/generate_data.py
+        run: docker compose run --rm airflow-init bash -c '/usr/local/bin/python /opt/data-generator/generate_data.py'
       - name: Initialize Airflow
         run: docker compose run --rm airflow-init
       - name: Run dbt
