@@ -30,13 +30,13 @@ jobs:
           done
           exit 1
       - name: Generate source data
-        run: docker compose run --rm airflow-init python /opt/data-generator/generate_data.py
+        run: docker compose run --rm airflow-init /usr/local/bin/python /opt/data-generator/generate_data.py
       - name: Initialize Airflow
         run: docker compose run --rm airflow-init
       - name: Run dbt
-        run: docker compose run --rm airflow-init bash -c 'cd /opt/dbt && dbt run --profiles-dir .'
+        run: docker compose run --rm airflow-init bash -c 'cd /opt/dbt && /usr/local/bin/python -m dbt.cli.main run --profiles-dir .'
       - name: Test dbt
-        run: docker compose run --rm airflow-init bash -c 'cd /opt/dbt && dbt test --profiles-dir .'
+        run: docker compose run --rm airflow-init bash -c 'cd /opt/dbt && /usr/local/bin/python -m dbt.cli.main test --profiles-dir .'
       - name: Tear down
         if: always()
         run: docker compose down -v
