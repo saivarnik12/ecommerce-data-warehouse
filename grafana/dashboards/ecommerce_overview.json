@@ -1,0 +1,19 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "panels": [
+    {"title":"Total Revenue","type":"stat","gridPos":{"h":4,"w":6,"x":0,"y":0},"datasource":{"type":"postgres","uid":"P963A8D4C4F9E4D1A"},"targets":[{"rawSql":"SELECT COALESCE(SUM(revenue),0) AS revenue FROM analytics_analytics.daily_sales_summary","format":"table"}]},
+    {"title":"Completed Orders","type":"stat","gridPos":{"h":4,"w":6,"x":6,"y":0},"datasource":{"type":"postgres","uid":"P963A8D4C4F9E4D1A"},"targets":[{"rawSql":"SELECT COUNT(*) AS orders FROM analytics_marts.fct_orders WHERE status <> 'cancelled'","format":"table"}]},
+    {"title":"Daily Revenue","type":"timeseries","gridPos":{"h":8,"w":12,"x":0,"y":4},"datasource":{"type":"postgres","uid":"P963A8D4C4F9E4D1A"},"targets":[{"rawSql":"SELECT order_date AS time, revenue FROM analytics_analytics.daily_sales_summary ORDER BY order_date","format":"time_series"}]},
+    {"title":"Revenue by Category","type":"barchart","gridPos":{"h":8,"w":12,"x":12,"y":4},"datasource":{"type":"postgres","uid":"P963A8D4C4F9E4D1A"},"targets":[{"rawSql":"SELECT category, SUM(revenue) AS revenue FROM analytics_analytics.monthly_revenue_by_category GROUP BY category ORDER BY revenue DESC","format":"table"}]},
+    {"title":"Top Customers by LTV","type":"table","gridPos":{"h":8,"w":12,"x":0,"y":12},"datasource":{"type":"postgres","uid":"P963A8D4C4F9E4D1A"},"targets":[{"rawSql":"SELECT customer_id, first_name || ' ' || last_name AS customer, lifetime_value FROM analytics_analytics.customer_ltv ORDER BY lifetime_value DESC LIMIT 10","format":"table"}]},
+    {"title":"Units Sold","type":"stat","gridPos":{"h":4,"w":6,"x":12,"y":0},"datasource":{"type":"postgres","uid":"P963A8D4C4F9E4D1A"},"targets":[{"rawSql":"SELECT COALESCE(SUM(units_sold),0) AS units FROM analytics_analytics.daily_sales_summary","format":"table"}]}
+  ],
+  "schemaVersion": 39,
+  "tags": ["ecommerce","warehouse"],
+  "templating": {"list": []},
+  "time": {"from":"now-30d","to":"now"},
+  "title": "E-Commerce Warehouse Overview",
+  "uid": "ecommerce-overview",
+  "version": 1
+}
