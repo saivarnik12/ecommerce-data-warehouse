@@ -14,13 +14,15 @@ x-airflow-common: &airflow-common
     DB_USER: dw_user
     DB_PASSWORD: dw_password
     DBT_PROFILES_DIR: /opt/dbt
+    DBT_TARGET_PATH: /tmp/dbt-target
+    DBT_LOG_PATH: /tmp/dbt-logs
   depends_on:
     postgres:
       condition: service_healthy
   volumes:
-    - ./airflow/dags:/opt/airflow/dags
-    - ./dbt_project:/opt/dbt
-    - ./data-generator:/opt/data-generator
+    - ./airflow/dags:/opt/airflow/dags:ro
+    - ./dbt_project:/opt/dbt:ro
+    - ./data-generator:/opt/data-generator:ro
 
 services:
   postgres:
